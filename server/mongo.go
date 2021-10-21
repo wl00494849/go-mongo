@@ -12,8 +12,6 @@ type Collection struct {
 	collection string
 }
 
-var ctx = context.Background()
-
 func NewCollection(db string, col string) *Collection {
 	return &Collection{
 		dataBase:   db,
@@ -22,10 +20,17 @@ func NewCollection(db string, col string) *Collection {
 }
 
 func (c *Collection) getCollection() *mongo.Collection {
+
 	return database.Db.Database(c.dataBase).Collection(c.collection)
 }
 
 func (c *Collection) Insert(data map[string]string) {
+	ctx := context.Background()
 	col := c.getCollection()
-	col.InsertOne(ctx, data)
+	database.Db.Connect(ctx)
+
+	_, err := col.InsertOne(ctx, data)
+	if err != nil {
+		panic(err)
+	}
 }
