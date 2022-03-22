@@ -10,7 +10,16 @@ func MongoInsert(ctx *gin.Context) {
 	var data map[string]string
 	ctx.BindJSON(&data)
 
-	col := server.NewCollection("test", "test")
+	col := server.NewCollection("test", "users")
 	col.Insert(data)
+	ctx.JSON(200, data)
+}
+
+func MongoDelete(ctx *gin.Context) {
+	var data map[string]string
+	ctx.BindJSON(&data)
+	col := server.NewCollection("test", "users")
+	col.Delete(data)
+
 	ctx.JSON(200, data)
 }

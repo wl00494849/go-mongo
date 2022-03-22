@@ -20,7 +20,6 @@ func NewCollection(db string, col string) *Collection {
 }
 
 func (c *Collection) getCollection() *mongo.Collection {
-
 	return database.Db.Database(c.dataBase).Collection(c.collection)
 }
 
@@ -33,4 +32,17 @@ func (c *Collection) Insert(data map[string]string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func (c *Collection) Delete(data map[string]string) {
+	ctx := context.Background()
+	col := c.getCollection()
+	database.Db.Connect(ctx)
+
+	_, err := col.DeleteOne(ctx, data)
+
+	if err != nil {
+		panic(err)
+	}
+
 }

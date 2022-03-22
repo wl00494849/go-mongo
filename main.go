@@ -13,6 +13,7 @@ func main() {
 	flag.StringVar(&port, "p", ":6666", "port")
 	app := gin.Default()
 	app.POST("/insert", controller.MongoInsert)
+	app.POST("/delete", controller.MongoDelete)
 
 	app.Run(port)
 }
